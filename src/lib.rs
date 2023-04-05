@@ -28,6 +28,39 @@ type CreateSocketFn = unsafe extern "C" fn() -> SocketHandle;
 type TurnOnFn = unsafe extern "C" fn();
 type TurnOffFn = unsafe extern "C" fn();
 type GetStateFn = unsafe extern "C" fn() -> State<'static>;
+type DestroySocketFn = unsafe extern "C" fn(SocketHandle);
+
+
+pub struct FunctionsBlock {
+    create_socket: CreateSocketFn,
+    turn_on: TurnOnFn,
+    turn_off: TurnOffFn,
+    get_state: GetStateFn,
+    destroy_socket: DestroySocketFn,
+}
+
+
+impl Default for FunctionsBlock {
+    fn default() -> Self {
+        Self { 
+            create_socket: (), 
+            turn_on: (), 
+            turn_off: (), 
+            get_state: (), 
+            destroy_socket: () 
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn functions() -> FunctionsBlock {
+    FunctionsBlock::default()
+}
+
+
+unsafe extern "C" fn create_socket() -> SocketHandle {
+    
+}
 
 
 struct SmartSocket {
